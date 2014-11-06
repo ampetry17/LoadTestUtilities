@@ -1,0 +1,81 @@
+<ServicePortInfo>
+  
+  <Service>
+    <ServiceID>CompassCoreService</ServiceID>
+    <ServiceName>CompassCoreService1</ServiceName>
+    <ImplementsIsAlive>False</ImplementsIsAlive>
+    <LUP>10/13/2014 14:04:41</LUP>
+    <EndPointUri>net.tcp://172.31.27.219/CompassFrameworkServices/CompassCoreService/CompassCore.svc</EndPointUri>
+    <CurrentConnections>-1</CurrentConnections>
+    <DiscoveryUrl>http://172.31.27.219/CompassFrameworkServices/CompassCoreService/CompassCore.svc</DiscoveryUrl>
+    <ServiceUser>deprecated</ServiceUser>
+    <ServicePassword>deprecated</ServicePassword>
+    <ServiceMode>Private</ServiceMode>
+    <ServiceProtocol>nettcp</ServiceProtocol>
+    <ServiceType>IIS</ServiceType>
+	<OpenTimeout>60</OpenTimeout>
+    <SendTimeout>60</SendTimeout>
+    <CloseTimeout>10</CloseTimeout>
+    <MaxReceivedMessageSize>2147483647</MaxReceivedMessageSize>
+    <MaxItemsInObjectGraph>2147483647</MaxItemsInObjectGraph>
+    <MaxBufferPoolSize>2147483647</MaxBufferPoolSize>
+    <MaxStringContentLength>2147483647</MaxStringContentLength>
+    <MaxArrayLength>2147483647</MaxArrayLength>
+    <MaxBytesPerRead>2147483647</MaxBytesPerRead>
+    <MaxTableNameCharCount>2147483647</MaxTableNameCharCount>
+    <MaxDepth>2147483647</MaxDepth>
+  </Service>
+  
+  <Service>
+    <ServiceID>CompassDocumentsService</ServiceID>
+    <ServiceName>CompassDocumentsService1</ServiceName>
+    <ImplementsIsAlive>False</ImplementsIsAlive>
+    <LUP>10/13/2014 14:04:41</LUP>
+    <EndPointUri>net.tcp://172.31.27.219/CompassFrameworkServices/CompassDocumentsService/CompassDocuments.svc</EndPointUri>
+    <CurrentConnections>-1</CurrentConnections>
+    <DiscoveryUrl>http://172.31.27.219/CompassFrameworkServices/CompassDocumentsService/CompassDocuments.svc</DiscoveryUrl>
+    <ServiceUser>deprecated</ServiceUser>
+    <ServicePassword>deprecated</ServicePassword>
+    <ServiceMode>Private</ServiceMode>
+    <ServiceProtocol>nettcp</ServiceProtocol>
+    <ServiceType>IIS</ServiceType>
+	<OpenTimeout>60</OpenTimeout>
+    <SendTimeout>60</SendTimeout>
+    <CloseTimeout>10</CloseTimeout>
+    <MaxReceivedMessageSize>2147483647</MaxReceivedMessageSize>
+    <MaxItemsInObjectGraph>2147483647</MaxItemsInObjectGraph>
+    <MaxBufferPoolSize>2147483647</MaxBufferPoolSize>
+    <MaxStringContentLength>2147483647</MaxStringContentLength>
+    <MaxArrayLength>2147483647</MaxArrayLength>
+    <MaxBytesPerRead>2147483647</MaxBytesPerRead>
+    <MaxTableNameCharCount>2147483647</MaxTableNameCharCount>
+    <MaxDepth>2147483647</MaxDepth>
+  </Service>
+  
+  <Service>
+    <ServiceID>CompassLicensedApplicationService</ServiceID>
+    <ServiceName>CompassLicensedApplicationService1</ServiceName>
+    <ImplementsIsAlive>False</ImplementsIsAlive>
+    <LUP>10/13/2014 14:04:41</LUP>
+    <EndPointUri>net.tcp://CompassPilot/CompassFrameworkServices/CompassLicensedApplicationService/CompassLicensedApplicationService.svc</EndPointUri>
+    <CurrentConnections>-1</CurrentConnections>
+    <DiscoveryUrl>http://CompassPilot/CompassFrameworkServices/CompassLicensedApplicationService/CompassLicensedApplicationService.svc</DiscoveryUrl>
+    <ServiceUser>deprecated</ServiceUser>
+    <ServicePassword>deprecated</ServicePassword>
+    <ServiceMode>Private</ServiceMode>
+    <ServiceProtocol>nettcp</ServiceProtocol>
+    <ServiceType>IIS</ServiceType>
+	<OpenTimeout>60</OpenTimeout>
+    <SendTimeout>60</SendTimeout>
+    <CloseTimeout>10</CloseTimeout>
+    <MaxReceivedMessageSize>2147483647</MaxReceivedMessageSize>
+    <MaxItemsInObjectGraph>2147483647</MaxItemsInObjectGraph>
+    <MaxBufferPoolSize>2147483647</MaxBufferPoolSize>
+    <MaxStringContentLength>2147483647</MaxStringContentLength>
+    <MaxArrayLength>2147483647</MaxArrayLength>
+    <MaxBytesPerRead>2147483647</MaxBytesPerRead>
+    <MaxTableNameCharCount>2147483647</MaxTableNameCharCount>
+    <MaxDepth>2147483647</MaxDepth>
+  </Service>
+  
+</ServicePortInfo>

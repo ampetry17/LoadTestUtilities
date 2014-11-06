@@ -1,0 +1,28 @@
+Pages,Format,Time
+,,
+Cached application object,,
+1,BW,136
+5,BW,141
+20,BW,291
+50,BW,350
+100,BW,355
+1,Color,137
+5,Color,222
+20,Color,1064
+50,Color,1104
+100,Color,2335
+,,
+Uncached application object,,
+100,Color,5250
+1,BW,440
+5,BW,451
+20,BW,445
+50,BW,576
+100,BW,659
+1,Color,423
+5,Color,515
+20,Color,896
+50,Color,1619
+100,Color,2475
+20,BW,11400
+20,BW,576
