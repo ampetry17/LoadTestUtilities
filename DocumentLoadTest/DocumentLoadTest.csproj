@@ -32,10 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CompassDocumentsDAL, Version=6.1.20.1, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\git\Repos\Pilot\Framework\Source\CompassFrameworkApplications\CompassDocumentsDAL\bin\Release\CompassDocumentsDAL.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -101,6 +97,10 @@
     <ProjectReference Include="..\..\..\Git\Repos\Pilot\Framework\Source\CompassFramework\FrameworkLibrary\CompassFrameworkLibrary.vbproj">
       <Project>{fa83b25e-4746-4a97-8b6c-e931d2a6dc40}</Project>
       <Name>CompassFrameworkLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Repos\Pilot\Framework\Source\CompassFrameworkApplications\CompassDocumentsDAL\CompassDocumentsDAL.vbproj">
+      <Project>{3d4ab9d6-e125-4223-9962-810fee6c98dd}</Project>
+      <Name>CompassDocumentsDAL</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

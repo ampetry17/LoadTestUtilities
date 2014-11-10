@@ -33,8 +33,6 @@ namespace DocumentLoadTest
 
         private void SaveDocument(string FileName)
         {
-            lblWorking.Visible = true;
-            Application.DoEvents();
 
             Stopwatch sw = Stopwatch.StartNew();
 
@@ -121,7 +119,6 @@ namespace DocumentLoadTest
             string testFile = System.Configuration.ConfigurationManager.AppSettings["TestFileFolder"] + @"\" + FileName;
             byte[] documentAsBytes = System.IO.File.ReadAllBytes(testFile);
 
-            ChunkingUploader chunkUploader = new ChunkingUploader();
 
             ICompassDocumentsService svc = null;
             cDocument oRet = null;
@@ -162,7 +159,6 @@ namespace DocumentLoadTest
             LogResults(sw.ElapsedMilliseconds);
             sw.Stop();
 
-            lblWorking.Visible = false;
         }
 
         private void LogResults(long ms)
@@ -277,12 +273,6 @@ namespace DocumentLoadTest
 
             return DataInterface.DBInterface.ScalarString(sql, string.Empty);
         }
-
-         private void btn1bw_Click(object sender, EventArgs e)
-        {
-            SaveDocument("1bw.tif");
-        }
-
         private DmsEntityTypes GetEntityTypes()
         {
             if (_entityTypes != null) return _entityTypes;
@@ -299,11 +289,6 @@ namespace DocumentLoadTest
         private List<cKeywordType> GetBlankKeywordTypes()
         {
             return GetEntityTypes().KeywordTypes;
-        }
-
-        private void btn2bw_Click(object sender, EventArgs e)
-        {
-            SaveDocument("2bw.tif");
         }
 
         private void btnScan_Click(object sender, EventArgs e)
@@ -342,12 +327,32 @@ namespace DocumentLoadTest
             }
             fileName += ".tif";
 
-            SaveDocument(fileName);
+            Color originalColor = this.BackColor;
+
+            lblWorking.Visible = true;
+            this.BackColor = Color.Red;
+            Application.DoEvents();
+
+            int copies = int.Parse(txtCopies.Text);
+
+            for (int i = 1; i <= copies; i++)
+            {
+                SaveDocument(fileName);
+            }
+
+            lblWorking.Visible = false;
+            this.BackColor = originalColor;
+
         }
 
         private void cboPages_SelectedIndexChanged(object sender, EventArgs e)
         {
             btnScan.Enabled = (cboPages.SelectedIndex != -1);
+        }
+
+        private void txtCopies_Enter(object sender, EventArgs e)
+        {
+            txtCopies.SelectAll();
         }
     }
 }
