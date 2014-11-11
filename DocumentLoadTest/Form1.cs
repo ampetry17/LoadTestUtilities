@@ -165,8 +165,8 @@ namespace DocumentLoadTest
         private void LogResults(long ms)
         {
             StringBuilder cmd = new StringBuilder();
-            cmd.Append("INSERT INTO CaptureLoadTestLog(pages, color, duration)");
-            cmd.AppendLine(string.Format("VALUES({0}, {1}, {2})", PageCount, isDocColor? "1" : "0", ms));
+            cmd.Append("INSERT INTO CaptureLoadTestLog(pages, color, duration, username)");
+            cmd.AppendLine(string.Format("VALUES({0}, {1}, {2}, {3})", PageCount, isDocColor? "1" : "0", ms, txtOBUsername.Text));
             try
             {
                 DataInterface.DBInterface.ExecuteSQLNonQuery(
