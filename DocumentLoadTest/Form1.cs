@@ -62,7 +62,8 @@ namespace DocumentLoadTest
 
             CompassDocumentsDAL.Common.gConfigOptions = new ConfigurableOptions();
             DataSet svcDirectory = new DataSet();
-            string FilePath = ConfigurationManager.AppSettings["TestFileFolder"] + @"\servicedirectory.xml";
+            //string FilePath = ConfigurationManager.AppSettings["TestFileFolder"] + @"\servicedirectory.xml";
+            string FilePath = Environment.ExpandEnvironmentVariables(@"%userprofile%\TestFiles" + @"\servicedirectory.xml");
             svcDirectory.ReadXml(FilePath);
 
             CompassDocumentsDAL.Common.gConfigOptions.serviceDirectory = svcDirectory;
@@ -118,7 +119,7 @@ namespace DocumentLoadTest
 
             cDocument.eDocStatus docStatus = cDocument.eDocStatus.NotFiled;
 
-            string testFile = System.Configuration.ConfigurationManager.AppSettings["TestFileFolder"] + @"\" + FileName;
+            string testFile = Environment.ExpandEnvironmentVariables(@"%userprofile%\TestFiles" + @"\" + FileName);
             byte[] documentAsBytes = System.IO.File.ReadAllBytes(testFile);
 
             ChunkingUploader chunkUploader = new ChunkingUploader();
