@@ -5,7 +5,7 @@
     <ServiceName>CompassCoreService1</ServiceName>
     <ImplementsIsAlive>False</ImplementsIsAlive>
     <LUP>10/13/2014 14:04:41</LUP>
-    <EndPointUri>net.tcp://172.31.27.219/CompassFrameworkServices/CompassCoreService/CompassCore.svc</EndPointUri>
+    <EndPointUri>http://172.31.27.219/CompassFrameworkServices/CompassCoreService/CompassCore.svc</EndPointUri>
     <CurrentConnections>-1</CurrentConnections>
     <DiscoveryUrl>http://172.31.27.219/CompassFrameworkServices/CompassCoreService/CompassCore.svc</DiscoveryUrl>
     <ServiceUser>deprecated</ServiceUser>
@@ -31,7 +31,7 @@
     <ServiceName>CompassDocumentsService1</ServiceName>
     <ImplementsIsAlive>False</ImplementsIsAlive>
     <LUP>10/13/2014 14:04:41</LUP>
-    <EndPointUri>net.tcp://172.31.27.219/CompassFrameworkServices/CompassDocumentsService/CompassDocuments.svc</EndPointUri>
+    <EndPointUri>https://172.31.27.219/CompassFrameworkServices/CompassDocumentsService/CompassDocuments.svc</EndPointUri>
     <CurrentConnections>-1</CurrentConnections>
     <DiscoveryUrl>http://172.31.27.219/CompassFrameworkServices/CompassDocumentsService/CompassDocuments.svc</DiscoveryUrl>
     <ServiceUser>deprecated</ServiceUser>
@@ -57,7 +57,7 @@
     <ServiceName>CompassLicensedApplicationService1</ServiceName>
     <ImplementsIsAlive>False</ImplementsIsAlive>
     <LUP>10/13/2014 14:04:41</LUP>
-    <EndPointUri>net.tcp://CompassPilot/CompassFrameworkServices/CompassLicensedApplicationService/CompassLicensedApplicationService.svc</EndPointUri>
+    <EndPointUri>http://CompassPilot/CompassFrameworkServices/CompassLicensedApplicationService/CompassLicensedApplicationService.svc</EndPointUri>
     <CurrentConnections>-1</CurrentConnections>
     <DiscoveryUrl>http://CompassPilot/CompassFrameworkServices/CompassLicensedApplicationService/CompassLicensedApplicationService.svc</DiscoveryUrl>
     <ServiceUser>deprecated</ServiceUser>

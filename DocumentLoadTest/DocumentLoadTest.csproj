@@ -32,6 +32,26 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Compass.ServiceFactory, Version=6.1.20.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\git\Repos\Pilot\Framework\Source\CompassFramework\Compass.ServiceFactory\bin\Debug\Compass.ServiceFactory.dll</HintPath>
+    </Reference>
+    <Reference Include="CompassCaptureDAL, Version=6.1.20.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\git\Repos\Pilot\Framework\Source\CompassFrameworkApplications\CompassCaptureDAL\bin\Debug\CompassCaptureDAL.dll</HintPath>
+    </Reference>
+    <Reference Include="CompassDocumentsDAL, Version=6.1.20.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\git\Repos\Pilot\Framework\Source\CompassFrameworkApplications\CompassDocumentsDAL\bin\Debug\CompassDocumentsDAL.dll</HintPath>
+    </Reference>
+    <Reference Include="CompassFrameworkLibrary, Version=6.2.50.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\git\Repos\Pilot\Framework\Source\CompassFramework\FrameworkLibrary\bin\Debug\CompassFrameworkLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="DataInterface, Version=6.1.20.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\git\Repos\Pilot\Framework\Source\CompassFramework\DataInterface\bin\Debug\DataInterface.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -80,28 +100,6 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Git\Repos\Pilot\Framework\Source\CompassFrameworkApplications\CompassCaptureDAL\CompassCaptureDAL.vbproj">
-      <Project>{04093362-99e3-4198-b1c6-83fbae59bc10}</Project>
-      <Name>CompassCaptureDAL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Git\Repos\Pilot\Framework\Source\CompassFramework\Compass.ServiceFactory\Compass.ServiceFactory.csproj">
-      <Project>{73007c5e-85f7-4bfb-94c3-b18a869caa74}</Project>
-      <Name>Compass.ServiceFactory</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Git\Repos\Pilot\Framework\Source\CompassFramework\DataInterface\DataInterface.csproj">
-      <Project>{27348d57-fcd2-4df7-a2be-6165bdb268df}</Project>
-      <Name>DataInterface</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Git\Repos\Pilot\Framework\Source\CompassFramework\FrameworkLibrary\CompassFrameworkLibrary.vbproj">
-      <Project>{fa83b25e-4746-4a97-8b6c-e931d2a6dc40}</Project>
-      <Name>CompassFrameworkLibrary</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Repos\Pilot\Framework\Source\CompassFrameworkApplications\CompassDocumentsDAL\CompassDocumentsDAL.vbproj">
-      <Project>{3d4ab9d6-e125-4223-9962-810fee6c98dd}</Project>
-      <Name>CompassDocumentsDAL</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="TestFile\100bw.tif" />

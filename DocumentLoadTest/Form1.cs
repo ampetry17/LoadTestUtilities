@@ -129,41 +129,66 @@ namespace DocumentLoadTest
             string sUploadId = Guid.NewGuid().ToString();
 
 
-            ICompassDocumentsService svc = null;
             cDocument oRet = null;
 
+            if (rbWCF.Checked)
+            {
+                oRet = DoWCFClassicCall(documentAsBytes, sUploadId, docType, keywords, assignment, pkApplicationUser,
+                    docStatus);
+            }
+            else
+            {
+                oRet = DoRestCall(documentAsBytes, sUploadId, docType, keywords, assignment, pkApplicationUser,
+                    docStatus);
+            }
+            //IsolatedStorage.KillIsoFile(testFile,"CaptureTest");
+
+            LogResults(sw.ElapsedMilliseconds);
+            sw.Stop();
+
+        }
+
+        private cDocument DoRestCall(byte[] documentAsBytes, string sUploadId,
+            cDocumentType docType, List<cKeywordType> keywords, cDocumentAssignment assignment, int pkApplicationUser, cDocument.eDocStatus docStatus)
+        {
+            PutDocumentParameters putDocumentParams = new PutDocumentParameters(sUploadId,
+                            documentAsBytes,
+                            docType,
+                            keywords,
+                            new List<cDocumentAssignment> {assignment},
+                            pkApplicationUser,
+                            documentAsBytes.Length,
+                            "tif",
+                            @"image/tiff",
+                            "0",
+                            docStatus,
+                            false,
+                            51,
+                            0);
+            List<string> paramList = new List<string>() {Helper.GetIdentityToken()};
+            return CompassDocumentsDAL.WebAPI.ProcessPostWithReturn<cDocument, PutDocumentParameters>(
+                "/WebAPI/Documents/{IdentityToken}/", putDocumentParams, paramList);
+        }
+
+        private cDocument DoWCFClassicCall(byte[] documentAsBytes, string sUploadId,
+            cDocumentType docType, List<cKeywordType> keywords, cDocumentAssignment assignment, int pkApplicationUser, cDocument.eDocStatus docStatus)
+        {
+            cDocument oRet;
+
+            ICompassDocumentsService svc = null;
+            
             try
             {
-
                 svc = Factory.GetService<ICompassDocumentsService>(CompassDocumentsDAL.Common.gConfigOptions, 10, false);
 
                 if (CompassDocumentsDAL.Common.gConfigOptions.ChunkFileSizeInBytes - 5120 > documentAsBytes.Length)
                 {
                     oRet = svc.PutDocument(Helper.GetIdentityToken(),
-                            new PutDocumentParameters(sUploadId,
-                                documentAsBytes,
-                                docType,
-                                keywords,
-                                new List<cDocumentAssignment> { assignment },
-                                pkApplicationUser,
-                                documentAsBytes.Length,
-                                "tif",
-                                @"image/tiff",
-                                "0",
-                                docStatus,
-                                false,
-                                51,
-                                0));
-                }
-                else
-                {
-                    ChunkFileAndUpload(sUploadId, ref svc, documentAsBytes);
-
-                    oRet = svc.PutDocument(Helper.GetIdentityToken(),
                         new PutDocumentParameters(sUploadId,
+                            documentAsBytes,
                             docType,
                             keywords,
-                            new List<cDocumentAssignment> { assignment },
+                            new List<cDocumentAssignment> {assignment},
                             pkApplicationUser,
                             documentAsBytes.Length,
                             "tif",
@@ -173,7 +198,25 @@ namespace DocumentLoadTest
                             false,
                             51,
                             0));
-                    
+                }
+                else
+                {
+                    ChunkFileAndUpload(sUploadId, ref svc, documentAsBytes);
+
+                    oRet = svc.PutDocument(Helper.GetIdentityToken(),
+                        new PutDocumentParameters(sUploadId,
+                            docType,
+                            keywords,
+                            new List<cDocumentAssignment> {assignment},
+                            pkApplicationUser,
+                            documentAsBytes.Length,
+                            "tif",
+                            @"image/tiff",
+                            "0",
+                            docStatus,
+                            false,
+                            51,
+                            0));
                 }
             }
             catch (Exception ex)
@@ -185,12 +228,7 @@ namespace DocumentLoadTest
             {
                 Factory.CloseService(svc);
             }
-
-            //IsolatedStorage.KillIsoFile(testFile,"CaptureTest");
-
-            LogResults(sw.ElapsedMilliseconds);
-            sw.Stop();
-
+            return oRet;
         }
 
         private void LogResults(long ms)
