@@ -14,6 +14,7 @@ using CompassFrameworkLibrary;
 using CompassDocumentsDAL;
 using Compass.ServiceFactory;
 using System.Diagnostics;
+using DataInterface;
 
 namespace DocumentLoadTest
 {
@@ -25,10 +26,16 @@ namespace DocumentLoadTest
         private bool _userTokenCreated;
         private int PageCount;
         private bool isDocColor;
+        private int _chunkSize = 0;
 
         public Form1()
         {
             InitializeComponent();
+
+            CompassDocumentsDAL.Common.gConfigOptions = new ConfigurableOptions();
+            DataSet dsConfig = DBInterface.GetDSfromSQL("select * from configuration");
+            CompassDocumentsDAL.Common.gConfigOptions.ConfigInit(dsConfig);
+
         }
 
         private void SaveDocument(string FileName)
@@ -58,7 +65,7 @@ namespace DocumentLoadTest
 
             CreateUserToken(pkApplicationUser, txtOBUsername.Text);
 
-            CompassDocumentsDAL.Common.gConfigOptions = new ConfigurableOptions();
+
             DataSet svcDirectory = new DataSet();
             //string FilePath = ConfigurationManager.AppSettings["TestFileFolder"] + @"\servicedirectory.xml";
             string FilePath = Environment.ExpandEnvironmentVariables(@"%userprofile%\TestFiles" + @"\servicedirectory.xml");
@@ -119,33 +126,55 @@ namespace DocumentLoadTest
 
             string testFile = Environment.ExpandEnvironmentVariables(@"%userprofile%\TestFiles" + @"\" + FileName);
             byte[] documentAsBytes = System.IO.File.ReadAllBytes(testFile);
+            string sUploadId = Guid.NewGuid().ToString();
 
 
             ICompassDocumentsService svc = null;
             cDocument oRet = null;
 
-         
-
             try
             {
-                svc = Factory.GetService<ICompassDocumentsService>(CompassDocumentsDAL.Common.gConfigOptions,10,false);
-                string sUploadId = string.Empty;
-                ChunkFileAndUpload(ref sUploadId, ref svc, documentAsBytes);
 
-                oRet = svc.PutDocument(Helper.GetIdentityToken(),
-                    new PutDocumentParameters(sUploadId,
-                        docType,
-                        keywords,
-                        new List<cDocumentAssignment> { assignment },
-                        pkApplicationUser,
-                        documentAsBytes.Length,
-                        "tif",
-                        @"image/tiff",
-                        "0",
-                        docStatus,
-                        false,
-                        51,
-                        0));
+                svc = Factory.GetService<ICompassDocumentsService>(CompassDocumentsDAL.Common.gConfigOptions, 10, false);
+
+                if (CompassDocumentsDAL.Common.gConfigOptions.ChunkFileSizeInBytes - 5120 > documentAsBytes.Length)
+                {
+                    oRet = svc.PutDocument(Helper.GetIdentityToken(),
+                            new PutDocumentParameters(sUploadId,
+                                documentAsBytes,
+                                docType,
+                                keywords,
+                                new List<cDocumentAssignment> { assignment },
+                                pkApplicationUser,
+                                documentAsBytes.Length,
+                                "tif",
+                                @"image/tiff",
+                                "0",
+                                docStatus,
+                                false,
+                                51,
+                                0));
+                }
+                else
+                {
+                    ChunkFileAndUpload(sUploadId, ref svc, documentAsBytes);
+
+                    oRet = svc.PutDocument(Helper.GetIdentityToken(),
+                        new PutDocumentParameters(sUploadId,
+                            docType,
+                            keywords,
+                            new List<cDocumentAssignment> { assignment },
+                            pkApplicationUser,
+                            documentAsBytes.Length,
+                            "tif",
+                            @"image/tiff",
+                            "0",
+                            docStatus,
+                            false,
+                            51,
+                            0));
+                    
+                }
             }
             catch (Exception ex)
             {
@@ -157,6 +186,8 @@ namespace DocumentLoadTest
                 Factory.CloseService(svc);
             }
 
+            //IsolatedStorage.KillIsoFile(testFile,"CaptureTest");
+
             LogResults(sw.ElapsedMilliseconds);
             sw.Stop();
 
@@ -166,7 +197,7 @@ namespace DocumentLoadTest
         {
             StringBuilder cmd = new StringBuilder();
             cmd.Append("INSERT INTO CaptureLoadTestLog(pages, color, duration, username)");
-            cmd.AppendLine(string.Format("VALUES({0}, {1}, {2}, {3})", PageCount, isDocColor? "1" : "0", ms, txtOBUsername.Text));
+            cmd.AppendLine(string.Format("VALUES({0}, {1}, {2}, '{3}')", PageCount, isDocColor? "1" : "0", ms, txtOBUsername.Text));
             try
             {
                 DataInterface.DBInterface.ExecuteSQLNonQuery(
@@ -177,7 +208,7 @@ namespace DocumentLoadTest
             }
         }
 
-        private void ChunkFileAndUpload(ref string sUploadId, ref ICompassDocumentsService svc, byte[] documentAsBytes)
+        private void ChunkFileAndUpload(string sUploadId, ref ICompassDocumentsService svc, byte[] documentAsBytes)
         {
             int chunkSize = CompassDocumentsDAL.Common.gConfigOptions.ChunkFileSizeInBytes;
             int dChunkPosition = 0;
@@ -207,7 +238,7 @@ namespace DocumentLoadTest
                         bCurrentChunk[i] = documentAsBytes[dChunkPosition + i];
                     }
 
-                    svc.UploadFileChunk(Helper.GetIdentityToken(), ref sUploadId, bCurrentChunk, iChunkNumber);
+                    svc.UploadFileChunk(Helper.GetIdentityToken(), sUploadId, bCurrentChunk, iChunkNumber);
 
                     //move our position within the document to account for the bytes we just read
                     dChunkPosition += chunkSize;
@@ -281,7 +312,6 @@ namespace DocumentLoadTest
             return _entityTypes;
         }
 
-
         private List<cDocumentType> GetBlankDocumentTypes()
         {
             return GetEntityTypes().DocumentTypes;
@@ -328,7 +358,6 @@ namespace DocumentLoadTest
             }
             fileName += ".tif";
 
-            Color originalColor = this.BackColor;
 
             lblWorking.Visible = true;
             this.BackColor = Color.Red;
@@ -342,18 +371,44 @@ namespace DocumentLoadTest
             }
 
             lblWorking.Visible = false;
-            this.BackColor = originalColor;
+            this.BackColor = SystemColors.Control;
 
         }
 
         private void cboPages_SelectedIndexChanged(object sender, EventArgs e)
         {
             btnScan.Enabled = (cboPages.SelectedIndex != -1);
+            pnlPending.Visible = (cboPages.SelectedIndex == -1);
+
         }
 
         private void txtCopies_Enter(object sender, EventArgs e)
         {
             txtCopies.SelectAll();
         }
+
+        private void txtOBUsername_TextChanged(object sender, EventArgs e)
+        {
+            ShowCredentialsEntered();
+        }
+
+        private void txtOBPassword_TextChanged(object sender, EventArgs e)
+        {
+            ShowCredentialsEntered();
+        }
+
+        private void ShowCredentialsEntered()
+        {
+            if (txtOBUsername.Text.Length > 0 && txtOBPassword.Text.Length > 0)
+            {
+                pnlPending.BackColor = Color.Orange;
+            }
+            else
+            {
+                pnlPending.BackColor = Color.Chartreuse;
+            }
+        }
+
+
     }
 }

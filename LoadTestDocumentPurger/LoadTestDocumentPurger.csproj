@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F310B02F-C996-4A99-B78A-25F5AEC94ACE}</ProjectGuid>
+    <ProjectGuid>{9292D3F8-4927-4C39-A698-BF1C49EE95B0}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DocumentLoadTest</RootNamespace>
-    <AssemblyName>DocumentLoadTest</AssemblyName>
+    <RootNamespace>LoadTestDocumentPurger</RootNamespace>
+    <AssemblyName>LoadTestDocumentPurger</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Hyland.Unity">
+      <HintPath>..\..\..\cs.net\OB13\OB13Service\Hyland.Unity.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -53,6 +56,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Purger.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -74,47 +78,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="TestFile\log.csv" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Git\Repos\Pilot\Framework\Source\CompassFrameworkApplications\CompassCaptureDAL\CompassCaptureDAL.vbproj">
-      <Project>{04093362-99e3-4198-b1c6-83fbae59bc10}</Project>
-      <Name>CompassCaptureDAL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Git\Repos\Pilot\Framework\Source\CompassFramework\Compass.ServiceFactory\Compass.ServiceFactory.csproj">
-      <Project>{73007c5e-85f7-4bfb-94c3-b18a869caa74}</Project>
-      <Name>Compass.ServiceFactory</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Git\Repos\Pilot\Framework\Source\CompassFramework\DataInterface\DataInterface.csproj">
-      <Project>{27348d57-fcd2-4df7-a2be-6165bdb268df}</Project>
-      <Name>DataInterface</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Git\Repos\Pilot\Framework\Source\CompassFramework\FrameworkLibrary\CompassFrameworkLibrary.vbproj">
-      <Project>{fa83b25e-4746-4a97-8b6c-e931d2a6dc40}</Project>
-      <Name>CompassFrameworkLibrary</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Repos\Pilot\Framework\Source\CompassFrameworkApplications\CompassDocumentsDAL\CompassDocumentsDAL.vbproj">
-      <Project>{3d4ab9d6-e125-4223-9962-810fee6c98dd}</Project>
-      <Name>CompassDocumentsDAL</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="TestFile\100bw.tif" />
-    <Content Include="TestFile\100c.tif" />
-    <Content Include="TestFile\1BW.tif" />
-    <Content Include="TestFile\1c.tif" />
-    <Content Include="TestFile\20bw.tif" />
-    <Content Include="TestFile\20c.tif" />
-    <Content Include="TestFile\50bw.tif" />
-    <Content Include="TestFile\50c.tif" />
-    <Content Include="TestFile\5BW.tif" />
-    <Content Include="TestFile\5c.tif" />
-    <Content Include="TestFile\servicedirectory.xml" />
+    <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

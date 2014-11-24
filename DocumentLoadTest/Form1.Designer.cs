@@ -40,6 +40,11 @@
             this.label3 = new System.Windows.Forms.Label();
             this.lblCopies = new System.Windows.Forms.Label();
             this.txtCopies = new System.Windows.Forms.TextBox();
+            this.gbxCommunication = new System.Windows.Forms.GroupBox();
+            this.rbREST = new System.Windows.Forms.RadioButton();
+            this.rbWCF = new System.Windows.Forms.RadioButton();
+            this.pnlPending = new System.Windows.Forms.Panel();
+            this.gbxCommunication.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblWorking
@@ -117,6 +122,7 @@
             this.txtOBUsername.Name = "txtOBUsername";
             this.txtOBUsername.Size = new System.Drawing.Size(100, 20);
             this.txtOBUsername.TabIndex = 1;
+            this.txtOBUsername.TextChanged += new System.EventHandler(this.txtOBUsername_TextChanged);
             // 
             // txtOBPassword
             // 
@@ -125,6 +131,7 @@
             this.txtOBPassword.PasswordChar = '*';
             this.txtOBPassword.Size = new System.Drawing.Size(100, 20);
             this.txtOBPassword.TabIndex = 3;
+            this.txtOBPassword.TextChanged += new System.EventHandler(this.txtOBPassword_TextChanged);
             // 
             // label2
             // 
@@ -162,11 +169,54 @@
             this.txtCopies.Text = "1";
             this.txtCopies.Enter += new System.EventHandler(this.txtCopies_Enter);
             // 
+            // gbxCommunication
+            // 
+            this.gbxCommunication.Controls.Add(this.rbREST);
+            this.gbxCommunication.Controls.Add(this.rbWCF);
+            this.gbxCommunication.Location = new System.Drawing.Point(316, 133);
+            this.gbxCommunication.Name = "gbxCommunication";
+            this.gbxCommunication.Size = new System.Drawing.Size(166, 77);
+            this.gbxCommunication.TabIndex = 12;
+            this.gbxCommunication.TabStop = false;
+            this.gbxCommunication.Text = "Communication";
+            // 
+            // rbREST
+            // 
+            this.rbREST.AutoSize = true;
+            this.rbREST.Location = new System.Drawing.Point(15, 43);
+            this.rbREST.Name = "rbREST";
+            this.rbREST.Size = new System.Drawing.Size(54, 17);
+            this.rbREST.TabIndex = 1;
+            this.rbREST.TabStop = true;
+            this.rbREST.Text = "REST";
+            this.rbREST.UseVisualStyleBackColor = true;
+            // 
+            // rbWCF
+            // 
+            this.rbWCF.AutoSize = true;
+            this.rbWCF.Location = new System.Drawing.Point(15, 20);
+            this.rbWCF.Name = "rbWCF";
+            this.rbWCF.Size = new System.Drawing.Size(49, 17);
+            this.rbWCF.TabIndex = 0;
+            this.rbWCF.TabStop = true;
+            this.rbWCF.Text = "WCF";
+            this.rbWCF.UseVisualStyleBackColor = true;
+            // 
+            // pnlPending
+            // 
+            this.pnlPending.BackColor = System.Drawing.Color.Chartreuse;
+            this.pnlPending.Location = new System.Drawing.Point(0, 0);
+            this.pnlPending.Name = "pnlPending";
+            this.pnlPending.Size = new System.Drawing.Size(28, 100);
+            this.pnlPending.TabIndex = 13;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(507, 318);
+            this.Controls.Add(this.pnlPending);
+            this.Controls.Add(this.gbxCommunication);
             this.Controls.Add(this.txtCopies);
             this.Controls.Add(this.lblCopies);
             this.Controls.Add(this.label3);
@@ -182,6 +232,8 @@
             this.Name = "Form1";
             this.Text = "Compass Documents Load Testing";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.gbxCommunication.ResumeLayout(false);
+            this.gbxCommunication.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -201,6 +253,10 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label lblCopies;
         private System.Windows.Forms.TextBox txtCopies;
+        private System.Windows.Forms.GroupBox gbxCommunication;
+        private System.Windows.Forms.RadioButton rbREST;
+        private System.Windows.Forms.RadioButton rbWCF;
+        private System.Windows.Forms.Panel pnlPending;
     }
 }
 
