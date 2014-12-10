@@ -34,27 +34,18 @@
   <ItemGroup>
     <Reference Include="Compass.ServiceFactory, Version=6.1.20.1, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\git\Repos\Pilot\Framework\Source\CompassFramework\Compass.ServiceFactory\bin\Debug\Compass.ServiceFactory.dll</HintPath>
-    </Reference>
-    <Reference Include="CompassCaptureDAL, Version=6.1.20.1, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\git\Repos\Pilot\Framework\Source\CompassFrameworkApplications\CompassCaptureDAL\bin\Debug\CompassCaptureDAL.dll</HintPath>
-    </Reference>
-    <Reference Include="CompassDocumentsDAL, Version=6.1.20.1, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\git\Repos\Pilot\Framework\Source\CompassFrameworkApplications\CompassDocumentsDAL\bin\Debug\CompassDocumentsDAL.dll</HintPath>
-    </Reference>
-    <Reference Include="CompassFrameworkLibrary, Version=6.2.50.1, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\git\Repos\Pilot\Framework\Source\CompassFramework\FrameworkLibrary\bin\Debug\CompassFrameworkLibrary.dll</HintPath>
+      <HintPath>..\..\Repos\Pilot\Framework\Source\CompassFramework\Compass.ServiceFactory\bin\Debug\Compass.ServiceFactory.dll</HintPath>
     </Reference>
     <Reference Include="DataInterface, Version=6.1.20.1, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\git\Repos\Pilot\Framework\Source\CompassFramework\DataInterface\bin\Debug\DataInterface.dll</HintPath>
+      <HintPath>..\..\Repos\Pilot\Framework\Source\CompassFramework\DataInterface\bin\Debug\DataInterface.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -113,6 +104,16 @@
     <Content Include="TestFile\5BW.tif" />
     <Content Include="TestFile\5c.tif" />
     <Content Include="TestFile\servicedirectory.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Repos\Pilot\Framework\Source\CompassFrameworkApplications\CompassDocumentsDAL\CompassDocumentsDAL.vbproj">
+      <Project>{3d4ab9d6-e125-4223-9962-810fee6c98dd}</Project>
+      <Name>CompassDocumentsDAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Repos\Pilot\Framework\Source\CompassFramework\FrameworkLibrary\CompassFrameworkLibrary.vbproj">
+      <Project>{fa83b25e-4746-4a97-8b6c-e931d2a6dc40}</Project>
+      <Name>CompassFrameworkLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

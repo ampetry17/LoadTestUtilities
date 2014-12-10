@@ -183,6 +183,7 @@
             // rbREST
             // 
             this.rbREST.AutoSize = true;
+            this.rbREST.Checked = true;
             this.rbREST.Location = new System.Drawing.Point(15, 43);
             this.rbREST.Name = "rbREST";
             this.rbREST.Size = new System.Drawing.Size(54, 17);
@@ -198,7 +199,6 @@
             this.rbWCF.Name = "rbWCF";
             this.rbWCF.Size = new System.Drawing.Size(49, 17);
             this.rbWCF.TabIndex = 0;
-            this.rbWCF.TabStop = true;
             this.rbWCF.Text = "WCF";
             this.rbWCF.UseVisualStyleBackColor = true;
             // 

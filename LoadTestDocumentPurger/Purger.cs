@@ -60,6 +60,7 @@ namespace LoadTestDocumentPurger
                 if (doc != null && !_stop)
                 {
                     _app.Core.Storage.PurgeDocument(doc);
+                    DocumentPurged(this, null);
                     PurgeCount += 1;
                 }
             }
@@ -82,6 +83,11 @@ namespace LoadTestDocumentPurger
                     "password",
                     ConfigurationManager.AppSettings["DmsServiceDataSource"]);
             _app = Hyland.Unity.Application.Connect(connectProperties);
+        }
+
+        public void CloseConnection()
+        {
+            _app.Disconnect();
         }
 
         public void Dispose()

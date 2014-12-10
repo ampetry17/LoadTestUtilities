@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.IO;
+using System.Linq;
+using System.Runtime.Serialization.Json;
+using System.Text;
+using System.Windows.Forms;
 using CompassFrameworkLibrary;
-using CompassDocumentsDAL;
 using Compass.ServiceFactory;
 using System.Diagnostics;
 using DataInterface;
+using System.Net;
+using System.Runtime.Serialization;
+
 
 namespace DocumentLoadTest
 {
@@ -43,8 +43,6 @@ namespace DocumentLoadTest
 
             Stopwatch sw = Stopwatch.StartNew();
 
-            //FileName = System.Configuration.ConfigurationManager.AppSettings["TestFileFolder"] + @"\" + FileName;
-            //byte[] fileBytes = File.ReadAllBytes(FileName);
             int pkApplicationUser = 296;
 
             string UserNameID = txtOBUsername.Text;
@@ -129,12 +127,12 @@ namespace DocumentLoadTest
             string sUploadId = Guid.NewGuid().ToString();
 
 
-            cDocument oRet = null;
+            string oRet = null;
 
             if (rbWCF.Checked)
             {
                 oRet = DoWCFClassicCall(documentAsBytes, sUploadId, docType, keywords, assignment, pkApplicationUser,
-                    docStatus);
+                    docStatus).pkDocument;
             }
             else
             {
@@ -148,7 +146,7 @@ namespace DocumentLoadTest
 
         }
 
-        private cDocument DoRestCall(byte[] documentAsBytes, string sUploadId,
+        private string DoRestCall(byte[] documentAsBytes, string sUploadId,
             cDocumentType docType, List<cKeywordType> keywords, cDocumentAssignment assignment, int pkApplicationUser, cDocument.eDocStatus docStatus)
         {
             PutDocumentParameters putDocumentParams = new PutDocumentParameters(sUploadId,
@@ -165,9 +163,33 @@ namespace DocumentLoadTest
                             false,
                             51,
                             0);
-            List<string> paramList = new List<string>() {Helper.GetIdentityToken()};
-            return CompassDocumentsDAL.WebAPI.ProcessPostWithReturn<cDocument, PutDocumentParameters>(
-                "/WebAPI/Documents/{IdentityToken}/", putDocumentParams, paramList);
+            putDocumentParams.IdentityToken = Helper.GetIdentityToken();
+
+            string address = ConfigurationManager.AppSettings["RestAddr"] + "/PutDocument";
+            WebRequest req = WebRequest.Create(Uri.EscapeUriString(address));
+            req.Method = "POST";
+            req.ContentType = "application/json";
+            
+            //putDocumentParams.DocBytes = new byte[]{0,0,0};
+            DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(PutDocumentParameters),new List<System.Type>{typeof(PutDocumentParameters)});
+            serializer.WriteObject(req.GetRequestStream(), putDocumentParams);
+            req.GetRequestStream().Close();
+
+            string oRet = null;
+
+            using (WebResponse resp = req.GetResponse())
+            {
+                Stream stream = resp.GetResponseStream();
+                if (stream != null)
+                {
+                    DataContractJsonSerializer ResponseSerializer = new DataContractJsonSerializer(typeof(string));
+                    oRet = (string)ResponseSerializer.ReadObject(stream);
+                }
+            }
+
+            return oRet;
+            //return CompassDocumentsDAL.WebAPI.ProcessPostWithReturn<cDocument, PutDocumentParameters>(
+            //    "/WebAPI/Documents/", putDocumentParams);
         }
 
         private cDocument DoWCFClassicCall(byte[] documentAsBytes, string sUploadId,
@@ -234,11 +256,11 @@ namespace DocumentLoadTest
         private void LogResults(long ms)
         {
             StringBuilder cmd = new StringBuilder();
-            cmd.Append("INSERT INTO CaptureLoadTestLog(pages, color, duration, username)");
-            cmd.AppendLine(string.Format("VALUES({0}, {1}, {2}, '{3}')", PageCount, isDocColor? "1" : "0", ms, txtOBUsername.Text));
+            cmd.Append("INSERT INTO CaptureLoadTestLog(pages, color, duration, username, method)");
+            cmd.AppendLine(string.Format("VALUES({0}, {1}, {2}, '{3}','{4}')", PageCount, isDocColor? "1" : "0", ms, txtOBUsername.Text,rbREST.Checked? "REST": "WCF"));
             try
             {
-                DataInterface.DBInterface.ExecuteSQLNonQuery(
+                DBInterface.ExecuteSQLNonQuery(
                 "Server=172.31.27.187;Database=CompassPilotAppFabricMonitoring;User Id=sa;Password=northwoods;", cmd.ToString());
             }
             catch
@@ -346,7 +368,14 @@ namespace DocumentLoadTest
         private DmsEntityTypes GetEntityTypes()
         {
             if (_entityTypes != null) return _entityTypes;
-            _entityTypes = CompassDocumentsDAL.CommonDBAccess.GetDMSEntityTypes(CacheRefreshLevel.UseAllCaching);
+
+            string FilePath = Environment.ExpandEnvironmentVariables(@"%userprofile%\TestFiles" + @"\EntityTypes");
+            byte[] EntityBytes = File.ReadAllBytes(FilePath);
+            _entityTypes = CompassFrameworkLibrary.Common.BinaryDeserializeObject<DmsEntityTypes>(EntityBytes);
+
+            //_entityTypes = CompassDocumentsDAL.CommonDBAccess.GetDMSEntityTypes(CacheRefreshLevel.UseAllCaching);
+
+            //File.WriteAllBytes(@"c:\EntityTypes",CompassFrameworkLibrary.Common.BinarySerializeObject(_entityTypes));
             return _entityTypes;
         }
 
@@ -437,7 +466,7 @@ namespace DocumentLoadTest
 
         private void ShowCredentialsEntered()
         {
-            if (txtOBUsername.Text.Length > 0 && txtOBPassword.Text.Length > 0)
+            if (txtOBUsername.Text.Length == "LoadTest0001".Length && txtOBPassword.Text == "password")
             {
                 pnlPending.BackColor = Color.Orange;
             }
